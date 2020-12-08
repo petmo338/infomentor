@@ -6,9 +6,9 @@ import base64
 import enum
 import hashlib
 from infomentor import config
+import sys
 
 cfg = config.load()
-
 ModelBase = declarative_base()
 
 _PASSWORD_SECRET_KEY = cfg["general"]["secretkey"]
@@ -52,15 +52,17 @@ class User(ModelBase):
 
     @property
     def password(self):
-        self._setup_cipher()
-        decoded = self.cipher.decrypt(base64.b64decode(self.enc_password))
-        return unpad(decoded)
+        # self._setup_cipher()
+        # decoded = self.cipher.decrypt(base64.b64decode(self.enc_password))
+        return self.enc_password
+#        return unpad(decoded)
 
     @password.setter
     def password(self, value):
-        self._setup_cipher()
-        encoded = base64.b64encode(self.cipher.encrypt(pad(value)))
+        # self._setup_cipher()
+        # encoded = base64.b64encode(self.cipher.encrypt(pad(value)))
         self.enc_password = encoded
+        self.enc_password = value
 
     def __repr__(self):
         return "<User(name='%s', password='%s')>" % (

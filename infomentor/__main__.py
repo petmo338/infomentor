@@ -7,7 +7,6 @@ import os
 import requests
 from infomentor import db, model, connector, informer, config
 
-
 logformat = (
     "{asctime} - {name:25s}[{filename:20s}:{lineno:3d}] - {levelname:8s} - {message}"
 )
@@ -54,15 +53,16 @@ def parse_args(arglist):
 
 
 def perform_user_update(args):
+    logger = logging.getLogger(__name__)
     username = args.username
     session = db.get_db()
     existing_user = (
         session.query(model.User).filter(model.User.name == username).one_or_none()
     )
     if existing_user is not None:
-        logger.info("Updating user {}", username)
+        logger.info("Updating user " + username)
     else:
-        logger.info("Creating User user {}", username)
+        logger.info("Creating User user " + username)
 
     if args.password is None:
         logger.info("No password provided, asking for it")
@@ -72,7 +72,8 @@ def perform_user_update(args):
         password = args.password
 
     if existing_user is not None:
-        existing_user.password = password
+        user = existing_user
+        user.password = password
     else:
         user = model.User(name=username, password=password)
         session.add(user)
@@ -121,9 +122,9 @@ def notify_users():
     logger = logging.getLogger(__name__)
     session = db.get_db()
     cfg = config.load()
-    if cfg["healthchecks"]["url"] != "":
+    if cfg["healthcheck"]["url"] != "":
         logger.info("Triggering Healthcheck Start")
-        requests.get(cfg["healthchecks"]["url"] + "/start")
+        requests.get(cfg["healthcheck"]["url"] + "/start")
 
     for user in session.query(model.User):
         logger.info("==== USER: %s =====", user.name)
@@ -172,14 +173,17 @@ def notify_users():
         logger.info("New API status: %s", user.apistatus)
         session.commit()
 
-    if cfg["healthchecks"]["url"] != "":
+    if cfg["healthcheck"]["url"] != "":
         logger.info("Triggering Healthcheck Stop")
-        requests.get(cfg["healthchecks"]["url"])
+        requests.get(cfg["healthcheck"]["url"])
 
 
 def main():
+    # sys.argv.append('--username')
+    # sys.argv.append('petmo338')
+    
     args = parse_args(sys.argv[1:])
-    if args.nolog:
+    if True:
         logtoconsole()
     else:
         logtofile()

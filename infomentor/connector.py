@@ -361,6 +361,7 @@ class Infomentor(object):
                 if hw["id"] == 0:
                     continue
                 else:
+                    hw["date"] = dategroup["date"]
                     self._homework[hw["id"]] = hw
                     homeworklist.append(hw["id"])
         return homeworklist
@@ -370,6 +371,7 @@ class Infomentor(object):
         storehw = {k: hw[k] for k in ("subject", "courseElement")}
         storehw["homework_id"] = hw["id"]
         storehw["text"] = hw["homeworkText"]
+        storehw["date"] = hw["date"]
         storehw["attachments"] = []
         for attachment in hw["attachments"]:
             self.logger.info("found attachment %s", attachment["title"])

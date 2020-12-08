@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  infomentor:
+    build: ./
+  db:
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_PASSWORD=infomentor
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 80:80
+    environment:
+    - PGADMIN_DEFAULT_EMAIL=petmo338@gmail.com
+    - PGADMIN_DEFAULT_PASSWORD=1loTus123

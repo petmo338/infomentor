@@ -1,11 +1,11 @@
 [pushover]
-apikey = <insert pushover api key here>
+apikey = 000000000000000000
 
 [general]
 secretkey = none1234
 baseurl = https://infomentor.example.org
-im1url = https://im1.infomentor.de/Germany/Germany/Production
-mimurl = https://meindsadsa.infomentor.de
+im1url = https://infomentor.se/swedish/production
+mimurl = https://hub.infomentor.se
 
 [smtp]
 server = example.org
@@ -17,4 +17,6 @@ url = https://health.d1v3.de/ping/123123123123123
 
 [db]
 server = db
-database = infomentor
+database = postgres
+type = postgresql+psycopg2
+password = infomentor

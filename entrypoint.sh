@@ -1,3 +1,3 @@
 #!/bin/bash
-
-infomentor $*
+sleep 2
+infomentor

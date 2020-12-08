@@ -12,17 +12,5 @@ setup(
         'console_scripts': [
             'infomentor=infomentor.__main__:main',
         ],
-    },
-    install_requires=[
-        "pycrypto",
-        "request",
-        "sqlalchemy",
-        "dateparser",
-        "python-pushover",
-        "flask",
-        "flask-bootstrap",
-        "caldav",
-        "bs4",
-        "icalendar",
-    ],
+    }
 )
